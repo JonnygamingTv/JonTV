@@ -1,7 +1,6 @@
 # JonTV
 Easily use JonTV's API
 
-# JonTV
 
 Using the [npm package](https://npmjs.org/package/JonTV) will make you able to easily use the [website](https://JonTV.me) to get info etc.
 
