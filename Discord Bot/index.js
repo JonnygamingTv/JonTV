@@ -39,7 +39,7 @@ client.on("message", async message => {
 					  .setDescription(`${JSONobj.d}\n\n_Uploaded by [${userJSON.n}](https://JonTV.me/channels/${JSONobj.cid})_`)
 					  .setThumbnail(`https://JonTV.me/${encodeURI(JSONobj.thumb)}`)
 					  .setFooter(JSONobj.up, (userJSON.i?"https://JonTV.me/"+encodeURI([userJSON.i.slice(3)]):"https://JonTV.me/jontv/JonTVplayBG_light_512.png"));
-					  message.reply(embed);
+					  message.channel.send(embed);
 					playMusic(message, JSONobj, stuff[1]);
 					  }
 				  });
@@ -50,7 +50,50 @@ client.on("message", async message => {
 		  });
 	  } else {
 		  jontv.search(args.slice(0).join(' '), function(result) {
-			  console.log(result);
+	try {
+			  let searchJSONR=JSON.parse(result);
+			  if(searchJSONR[0]) {
+				  let foundAny=false;
+				  searchJSONR.forEach(elemen => {
+					  if(foundAny) return;
+					  console.log(elemen);
+					  if(elemen.typ=='video') {
+						  foundAny=true;
+		  jontv(elemen.id, function(videodata) {
+			  try {
+				  let JSONobj = JSON.parse(videodata);
+				  jontv.getuser(JSONobj.cid, function(userdata){
+					  if(userdata) {
+					  let userJSON = JSON.parse(userdata);
+					  let embed = new Discord.RichEmbed()
+					  .setAuthor(`${userJSON.n}`, (userJSON.i?"https://jontv.me/"+encodeURI([userJSON.i.slice(3)]):"https://jontv.me/jontv/JonTVplayBG_light_512.png"))
+					  .setTitle(`${JSONobj.n}`)
+					  .setDescription(`${JSONobj.d}\n\n_Uploaded by [${userJSON.n}](https://JonTV.me/channels/${JSONobj.cid})_`)
+					  .setThumbnail(`https://JonTV.me/${encodeURI(JSONobj.thumb)}`)
+					  .setFooter(JSONobj.up, (userJSON.i?"https://JonTV.me/"+encodeURI([userJSON.i.slice(3)]):"https://JonTV.me/jontv/JonTVplayBG_light_512.png"));
+					  message.channel.send(embed);
+					playMusic(message, JSONobj, elemen.id);
+					  }
+				  });
+			  } catch(error) {
+				  console.log(error);
+			  }
+		  });
+					  }
+				  });
+			  } else{
+				  message.reply("Nothing was found searching this.");
+			  }
+	} catch(err) {
+		console.log(err);
+	}
+		  });
+	  }
+	  } else {
+		  let evrythin = args.slice(0).join(' ');
+		  if(evrythin) {
+		  return jontv.search(evrythin, function(result) {
+	try {
 			  let searchJSONR=JSON.parse(result);
 			  if(searchJSONR[0]) {
 				  let foundAny=false;
@@ -70,27 +113,22 @@ client.on("message", async message => {
 					  .setDescription(`${JSONobj.d}\n\n_Uploaded by [${userJSON.n}](https://JonTV.me/channels/${JSONobj.cid})_`)
 					  .setThumbnail(`https://JonTV.me/${encodeURI(JSONobj.thumb)}`)
 					  .setFooter(JSONobj.up, (userJSON.i?"https://JonTV.me/"+encodeURI([userJSON.i.slice(3)]):"https://JonTV.me/jontv/JonTVplayBG_light_512.png"));
+					  message.channel.send(embed);
 					playMusic(message, JSONobj, elemen.id);
 					  }
 				  });
 			  } catch(error) {
 				  console.log(error);
 			  }
-			  
 		  });
 					  }
 				  });
 			  } else{
 				  message.reply("Nothing was found searching this.");
 			  }
-		  });
-		  
-	  }
-	  } else {
-		  let evrythin = args.slice(0).join(' ');
-		  if(evrythin) {
-		  return jontv.search(evrythin, function(result) {
-			  console.log(result);
+	} catch(err) {
+		console.log(err);
+	}
 		  });
 		  }
 		  message.reply("No video provided");
