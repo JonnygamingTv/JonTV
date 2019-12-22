@@ -52,9 +52,9 @@ client.on("message", async message => {
 		  jontv.search(args.slice(0).join(' '), function(result) {
 			  console.log(result);
 			  let searchJSONR=JSON.parse(result);
-			  if(result[0]) {
+			  if(searchJSONR[0]) {
 				  let foundAny=false;
-				  result.forEach(elemen => {
+				  searchJSONR.forEach(elemen => {
 					  if(foundAny) return;
 					  if(elemen.typ=='video') {
 						  foundAny=true;
