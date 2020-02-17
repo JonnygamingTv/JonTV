@@ -19,7 +19,7 @@ client.on("message", async message => {
     m.edit(`Pong! Latency is ${m.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
 	break;
   case "invite":
-	message.reply(`https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=0&redirect_uri=https%3A%2F%2Fjontv.me&scope=bot`);
+	message.reply(`https://discordapp.com/api/oauth2/authorize?client_id=${client.user.id}&permissions=2146958591&scope=bot`);
 	break;
   case "play":
 	if(message.channel.type == 'text') {
